@@ -40,3 +40,6 @@ Classes
         - icon - The icon of the piece
     - Methods
         - #moves - Passed to board#validate_moves, Returns an array of valid moves
+- Player
+    - Variables
+        - color - The player's color
