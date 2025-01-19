@@ -58,4 +58,20 @@ class Board
     current_column << specific_piece[1]
     current_column
   end
+
+  def print_board
+    (0..7).each do |row_index|
+      @spaces.each_with_index do |column, column_index|
+        print '|'
+        if column[row_index]
+          print column[row_index].icon
+        else
+          print ' '
+        end
+      end
+      print '|'
+      puts
+      puts '-----------------'
+    end
+  end
 end
