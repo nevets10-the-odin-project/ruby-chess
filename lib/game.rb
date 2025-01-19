@@ -8,10 +8,12 @@ require_relative 'knight'
 require_relative 'pawn'
 
 class Game
+  attr_reader :board, :players, :current_player
+
   def initialize
-    board = Board.new(init_pieces)
-    players = [Player.new('White'), Player.new('Black')]
-    current_player = 0
+    @board = Board.new(init_pieces)
+    @players = [Player.new('White'), Player.new('Black')]
+    @current_player = 0
   end
 
   def init_pieces
