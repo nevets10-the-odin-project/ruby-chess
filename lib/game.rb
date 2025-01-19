@@ -45,4 +45,8 @@ class Game
       @current_player = @current_player >= 1 ? 0 : 1
     end
   end
+
+  def game_over?
+    false
+  end
 end
