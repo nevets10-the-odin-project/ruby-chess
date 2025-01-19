@@ -60,8 +60,7 @@ class Board
   end
 
   def print_board
-    print '    a   b   c   d   e   f   g   h'
-    puts
+    puts '    a   b   c   d   e   f   g   h'
     (0..7).reverse_each do |row_index|
       print row_index
       @spaces.each do |column|
