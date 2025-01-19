@@ -46,6 +46,16 @@ class Game
     end
   end
 
+  def player_input
+    loop do
+      user_input = gets.chomp
+      validated_input = validate_input(user_input)
+      return validated_input if validated_input
+
+      puts 'Illegal move.'
+    end
+  end
+
   def game_over?
     false
   end
