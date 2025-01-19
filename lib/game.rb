@@ -32,4 +32,17 @@ class Game
     end
     pieces
   end
+
+  def start
+    loop do
+      system 'clear -x'
+      puts
+      puts "It's #{players[current_player].color}'s turn!"
+      input = player_input
+
+      break if game_over?
+
+      @current_player = @current_player >= 1 ? 0 : 1
+    end
+  end
 end
