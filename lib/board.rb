@@ -9,27 +9,14 @@ class Board
 
   def build_spaces(pieces)
     columns = []
-    (0..7).each do |column_index|
-      case column_index
-      when 0
-        current_column = build_column(pieces, column_index, 'Rook', 0)
-      when 1
-        current_column = build_column(pieces, column_index, 'Knight', 0)
-      when 2
-        current_column = build_column(pieces, column_index, 'Bishop', 0)
-      when 3
-        current_column = build_column(pieces, column_index, 'Queen', 0)
-      when 4
-        current_column = build_column(pieces, column_index, 'King', 0)
-      when 5
-        current_column = build_column(pieces, column_index, 'Bishop', 1)
-      when 6
-        current_column = build_column(pieces, column_index, 'Knight', 1)
-      when 7
-        current_column = build_column(pieces, column_index, 'Rook', 1)
-      end
-      columns << current_column
-    end
+    columns << build_column(pieces, 0, 'Rook', 0)
+    columns << build_column(pieces, 1, 'Knight', 0)
+    columns << build_column(pieces, 2, 'Bishop', 0)
+    columns << build_column(pieces, 3, 'Queen', 0)
+    columns << build_column(pieces, 4, 'King', 0)
+    columns << build_column(pieces, 5, 'Bishop', 1)
+    columns << build_column(pieces, 6, 'Knight', 1)
+    columns << build_column(pieces, 7, 'Rook', 1)
     columns
   end
 
