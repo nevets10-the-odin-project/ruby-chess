@@ -60,10 +60,10 @@ class Board
   end
 
   def print_board
-    print '     A   B   C   D   E   F   G   H'
+    print '    a   b   c   d   e   f   g   h'
     puts
-    (0..7).each do |row_index|
-      print "#{row_index} "
+    (0..7).reverse_each do |row_index|
+      print row_index
       @spaces.each do |column|
         print ' | '
         if column[row_index]
@@ -74,8 +74,8 @@ class Board
       end
       print ' |'
       puts " #{row_index}"
-      puts '   --------------------------------' unless row_index == 7
+      puts '  ---------------------------------' unless row_index.zero?
     end
-    puts '     A   B   C   D   E   F   G   H'
+    puts '    a   b   c   d   e   f   g   h'
   end
 end
