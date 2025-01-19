@@ -61,7 +61,7 @@ class Board
 
   def print_board
     (0..7).each do |row_index|
-      @spaces.each_with_index do |column, column_index|
+      @spaces.each do |column|
         print '|'
         if column[row_index]
           print column[row_index].icon
