@@ -60,18 +60,22 @@ class Board
   end
 
   def print_board
+    print '     A   B   C   D   E   F   G   H'
+    puts
     (0..7).each do |row_index|
+      print "#{row_index} "
       @spaces.each do |column|
-        print '|'
+        print ' | '
         if column[row_index]
           print column[row_index].icon
         else
           print ' '
         end
       end
-      print '|'
-      puts
-      puts '-----------------'
+      print ' |'
+      puts " #{row_index}"
+      puts '   --------------------------------' unless row_index == 7
     end
+    puts '     A   B   C   D   E   F   G   H'
   end
 end
