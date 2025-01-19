@@ -13,4 +13,20 @@ class Game
     players = [Player.new('White'), Player.new('Black')]
     current_player = 0
   end
+
+  def init_pieces
+    pieces = []
+    (0..1).times do |player_index|
+      pieces << King.new(player_index)
+      pieces << Queen.new(player_index)
+
+      (0..1).times do |piece_index|
+        pieces << Rook.new(player_index, piece_index)
+        pieces << Bishop.new(player_index, piece_index)
+        pieces << Knight.new(player_index, piece_index)
+      end
+
+      (0..7).times { |piece_index| pieces << Pawn.new(player_index, piece_index) }
+    end
+  end
 end
