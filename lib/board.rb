@@ -4,6 +4,14 @@ class Board
 
   def initialize(pieces)
     @pieces = pieces
-    @spaces = build_board
+    @spaces = build_spaces
+  end
+
+  def build_spaces
+    column = []
+    8.times do
+      column << []
+    end
+    column
   end
 end
