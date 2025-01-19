@@ -28,5 +28,6 @@ class Game
 
       (0..7).each { |piece_index| pieces << Pawn.new(player_index, piece_index) }
     end
+    pieces
   end
 end
