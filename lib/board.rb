@@ -12,44 +12,30 @@ class Board
     (0..7).each do |column_index|
       case column_index
       when 0
-        rooks = pieces.filter { |piece| piece.type == 'Rook' && piece.piece_index == 0 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(rooks, pawns)
+        current_column = build_column(pieces, column_index, 'Rook', 0)
       when 1
-        knights = pieces.filter { |piece| piece.type == 'Knight' && piece.piece_index == 0 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(knights, pawns)
+        current_column = build_column(pieces, column_index, 'Knight', 0)
       when 2
-        bishops = pieces.filter { |piece| piece.type == 'Bishop' && piece.piece_index == 0 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(bishops, pawns)
+        current_column = build_column(pieces, column_index, 'Bishop', 0)
       when 3
-        queens = pieces.filter { |piece| piece.type == 'Queen' && piece.piece_index == 0 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(queens, pawns)
+        current_column = build_column(pieces, column_index, 'Queen', 0)
       when 4
-        kings = pieces.filter { |piece| piece.type == 'King' && piece.piece_index == 0 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(kings, pawns)
+        current_column = build_column(pieces, column_index, 'King', 0)
       when 5
-        bishops = pieces.filter { |piece| piece.type == 'Bishop' && piece.piece_index == 1 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(bishops, pawns)
+        current_column = build_column(pieces, column_index, 'Bishop', 1)
       when 6
-        knights = pieces.filter { |piece| piece.type == 'Knight' && piece.piece_index == 1 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(knights, pawns)
+        current_column = build_column(pieces, column_index, 'Knight', 1)
       when 7
-        rooks = pieces.filter { |piece| piece.type == 'Rook' && piece.piece_index == 1 }
-        pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
-        current_column = build_column(rooks, pawns)
+        current_column = build_column(pieces, column_index, 'Rook', 1)
       end
       columns << current_column
     end
     columns
   end
 
-  def build_column(specific_piece, pawns)
+  def build_column(pieces, column_index, piece_type, piece_index)
+    specific_piece = pieces.filter { |piece| piece.type == piece_type && piece.piece_index == piece_index }
+    pawns = pieces.filter { |piece| piece.type == 'Pawn' && piece.piece_index == column_index }
     current_column = []
     current_column << specific_piece[0]
     current_column << pawns[0]
