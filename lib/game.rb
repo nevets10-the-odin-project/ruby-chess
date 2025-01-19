@@ -17,8 +17,8 @@ class Game
   def init_pieces
     pieces = []
     (0..1).times do |player_index|
-      pieces << King.new(player_index)
-      pieces << Queen.new(player_index)
+      pieces << King.new(player_index, 0)
+      pieces << Queen.new(player_index, 0)
 
       (0..1).times do |piece_index|
         pieces << Rook.new(player_index, piece_index)
