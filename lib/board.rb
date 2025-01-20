@@ -67,8 +67,8 @@ class Board
     destination_coordinates if possible_moves.any?(destination_coordinates)
   end
 
-  def blocking_piece?(current_space, destination)
-    return true if spaces[current_space[0], current_space[1]]
+  def blocking_piece?(target, destination, current_space = target)
+    return true if spaces[current_space[0], current_space[1]] && target != current_space
     return false if current_space == destination
 
     new_x = if destination[0] > current_space[0]
@@ -87,7 +87,7 @@ class Board
               current_space[0]
             end
 
-    blocking_piece?([new_x, new_y], destination)
+    blocking_piece?(target, destination, [new_x, new_y])
   end
 
   def update_board(user_input)
