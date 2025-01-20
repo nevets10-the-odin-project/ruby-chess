@@ -63,4 +63,15 @@ class Board
     possible_moves = piece.filter_moves(target_coordinates)
     destination_coordinates if possible_moves.any?(destination_coordinates)
   end
+
+  def update_board(user_input)
+    target_coordinates = [BOARD_COLUMNS.index(user_input[0]), user_input[1].to_i - 1]
+    destination_coordinates = [BOARD_COLUMNS.index(user_input[2]), user_input[3].to_i - 1]
+    options = user_input[4].split('') if user_input[4]
+
+    piece = spaces[target_coordinates[0]][target_coordinates[1]]
+
+    @spaces[target_coordinates[0]][target_coordinates[1]] = piece
+    @spaces[destination_coordinates[0]][destination_coordinates[1]] = nil
+  end
 end
