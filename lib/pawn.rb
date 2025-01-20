@@ -12,8 +12,9 @@ class Pawn < Piece
     two_spaces = [current_position[0], current_position[1] + (2 * y_dir)]
     l_attack = [current_position[0] - 1, current_position[1] + (1 * y_dir)]
     r_attack = [current_position[0] + 1, current_position[1] + (1 * y_dir)]
-    # Omitting en-passant for now
-    potential_moves = [one_space, two_spaces, l_attack, r_attack]
+    l_passant = [current_position[0] - 1, current_position[1] + (2 * y_dir)]
+    r_passant = [current_position[0] + 1, current_position[1] + (2 * y_dir)]
+    potential_moves = [one_space, two_spaces, l_attack, r_attack, l_passant, r_passant]
 
     potential_moves.filter { |move| move[0].between?(0, 7) && move[1].between?(0, 7) }
   end
