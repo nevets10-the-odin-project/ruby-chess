@@ -2,6 +2,8 @@ class Board
   attr_accessor :spaces
   attr_reader :pieces
 
+  BOARD_COLUMNS = %w[a b c d e f g h].freeze
+
   def initialize(pieces)
     @pieces = pieces
     @spaces = build_spaces(pieces)
@@ -49,5 +51,15 @@ class Board
       puts '  ---------------------------------' unless row_index.zero?
     end
     puts '    a   b   c   d   e   f   g   h'
+  end
+
+  def validate_move(target, destination)
+    target_coordinates = [BOARD_COLUMNS.index(target[0]), target[1]]
+    destination_coordinates = [BOARD_COLUMNS.index(destination[0]), destination[1]]
+    piece = spaces[target_coordinates[0]][target_coordinates[1]]
+    return unless piece
+
+    possible_moves = piece.filter_moves(target_coordinates)
+    destination_coordinates if possible_moves.any?(destination_coordinates)
   end
 end
