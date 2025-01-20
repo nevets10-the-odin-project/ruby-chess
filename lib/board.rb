@@ -61,11 +61,33 @@ class Board
     return unless target_piece
     return unless target_piece.player_index == current_player
     return if destination_piece && destination_piece.player_index == current_player
-    return if target_piece.properties.none?('leap') && blocking_piece?(target, destination)
+    return if target_piece.properties.none?('leap') && blocking_piece?(target_coordinates, destination_coordinates)
 
     possible_moves = target_piece.filter_moves(target_coordinates)
-
     destination_coordinates if possible_moves.any?(destination_coordinates)
+  end
+
+  def blocking_piece?(current_space, destination)
+    return true if spaces[current_space[0], current_space[1]]
+    return false if current_space == destination
+
+    new_x = if destination[0] > current_space[0]
+              current_space[0] += 1
+            elsif destination[0] < current_space[0]
+              current_space[0] -= 1
+            else
+              current_space[0]
+            end
+
+    new_y = if destination[1] > current_space[1]
+              current_space[1] += 1
+            elsif destination[1] < current_space[1]
+              current_space[1] -= 1
+            else
+              current_space[0]
+            end
+
+    blocking_piece?([new_x, new_y], destination)
   end
 
   def update_board(user_input)
