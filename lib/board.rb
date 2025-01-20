@@ -61,8 +61,10 @@ class Board
     return unless target_piece
     return unless target_piece.player_index == current_player
     return if destination_piece && destination_piece.player_index == current_player
+    return if target_piece.properties.none?('leap') && blocking_piece?(target, destination)
 
     possible_moves = target_piece.filter_moves(target_coordinates)
+
     destination_coordinates if possible_moves.any?(destination_coordinates)
   end
 
