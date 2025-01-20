@@ -39,7 +39,7 @@ class Game
       board.print_board
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
-
+      board.update_board(input)
       break if game_over?
 
       @current_player = @current_player >= 1 ? 0 : 1
@@ -64,7 +64,7 @@ class Game
     return unless target.match?(/[a-h][1-8]/)
     return unless destination.match?(/[a-h][1-8]/)
 
-    board.validate_move(target, destination)
+    user_input if board.validate_move(target, destination)
   end
 
   def game_over?
