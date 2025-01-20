@@ -14,6 +14,6 @@ class Bishop < Piece
       possible_moves << [current_position[0] - step, current_position[1] + step]
       possible_moves << [current_position[0] - step, current_position[1] - step]
     end
-    possible_moves.filter { |x, y| x.between?(0..7) && y.between?(0..7) }
+    possible_moves.filter { |x, y| x.between?(0, 7) && y.between?(0, 7) }
   end
 end
