@@ -67,9 +67,9 @@ class Board
     destination_coordinates if possible_moves.any?(destination_coordinates)
   end
 
-  def blocking_piece?(target, destination, current_space = target)
-    return true if spaces[current_space[0], current_space[1]] && target != current_space
-    return false if current_space == destination
+  def blocking_piece?(target, destination, current_space = Array.new(target))
+    return true if spaces[current_space[0]][current_space[1]] && target.join('') != current_space.join('')
+    return false if current_space.join('') == destination.join('')
 
     new_x = if destination[0] > current_space[0]
               current_space[0] += 1
