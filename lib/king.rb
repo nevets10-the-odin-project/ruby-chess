@@ -8,8 +8,8 @@ class King < Piece
     super('King', player_index, piece_index, icon)
   end
 
-  def filter_moves(current_position, board)
-    potential_moves = board.map { |move| [move[0] + current_position[0], move[1] + current_position[1]] }
+  def filter_moves(current_position)
+    potential_moves = MOVES.map { |move| [move[0] + current_position[0], move[1] + current_position[1]] }
     potential_moves.filter { |move| move[0].between?(0, 7) && move[1].between?(0, 7) }
   end
 end
