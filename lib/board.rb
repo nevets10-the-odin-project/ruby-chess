@@ -1,12 +1,13 @@
 class Board
   attr_accessor :spaces
-  attr_reader :pieces
+  attr_reader :pieces, :move_history
 
   BOARD_COLUMNS = %w[a b c d e f g h].freeze
 
   def initialize(pieces)
     @pieces = pieces
     @spaces = build_spaces(pieces)
+    @move_history = []
   end
 
   def build_spaces(pieces)
