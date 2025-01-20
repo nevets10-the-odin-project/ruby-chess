@@ -36,7 +36,7 @@ class Game
   def start
     loop do
       system 'clear -x'
-      puts
+      board.print_board
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
 
@@ -54,6 +54,17 @@ class Game
 
       puts 'Illegal move.'
     end
+  end
+
+  def validate_input(user_input)
+    target = user_input[0, 2]
+    destination = user_input[2, 2]
+    options = user_input[4].split('') if user_input[4]
+
+    return unless target.match?(/[a-h][1-8]/)
+    return unless destination.match?(/[a-h][1-8]/)
+
+    user_input
   end
 
   def game_over?
