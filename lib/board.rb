@@ -54,8 +54,8 @@ class Board
   end
 
   def validate_move(target, destination)
-    target_coordinates = [BOARD_COLUMNS.index(target[0]), target[1].to_i]
-    destination_coordinates = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i]
+    target_coordinates = [BOARD_COLUMNS.index(target[0]), target[1].to_i - 1]
+    destination_coordinates = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
     piece = spaces[target_coordinates[0]][target_coordinates[1]]
     return unless piece
 
