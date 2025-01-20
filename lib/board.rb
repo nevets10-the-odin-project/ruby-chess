@@ -56,11 +56,13 @@ class Board
   def validate_move(target, destination, current_player)
     target_coordinates = [BOARD_COLUMNS.index(target[0]), target[1].to_i - 1]
     destination_coordinates = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
-    piece = spaces[target_coordinates[0]][target_coordinates[1]]
-    return unless piece
-    return unless piece.player_index == current_player
+    target_piece = spaces[target_coordinates[0]][target_coordinates[1]]
+    destination_piece = spaces[destination_coordinates[0]][destination_coordinates[1]]
+    return unless target_piece
+    return unless target_piece.player_index == current_player
+    return if destination_piece && destination_piece.player_index == current_player
 
-    possible_moves = piece.filter_moves(target_coordinates)
+    possible_moves = target_piece.filter_moves(target_coordinates)
     destination_coordinates if possible_moves.any?(destination_coordinates)
   end
 
