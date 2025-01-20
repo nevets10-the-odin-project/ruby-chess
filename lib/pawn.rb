@@ -7,11 +7,11 @@ class Pawn < Piece
   end
 
   def filter_moves(current_position)
-    x_dir = player_index.zero? ? 1 : -1
-    one_space = [current_position[0] + (1 * x_dir), current_position[1]]
-    two_spaces = [current_position[0] + (2 * x_dir), current_position[1]]
-    l_attack = [current_position[0] + (1 * x_dir), current_position[1] - 1]
-    r_attack = [current_position[0] + (1 * x_dir), current_position[1] + 1]
+    y_dir = player_index.zero? ? 1 : -1
+    one_space = [current_position[0], current_position[1] + (1 * y_dir)]
+    two_spaces = [current_position[0], current_position[1] + (2 * y_dir)]
+    l_attack = [current_position[0] - 1, current_position[1] + (1 * y_dir)]
+    r_attack = [current_position[0] + 1, current_position[1] + (1 * y_dir)]
     # Omitting en-passant for now
     potential_moves = [one_space, two_spaces, l_attack, r_attack]
 
