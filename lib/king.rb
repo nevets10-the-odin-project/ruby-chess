@@ -1,7 +1,7 @@
 require_relative 'piece'
 
 class King < Piece
-  MOVES = [[1, 1], [1, 0], [1, -1], [0, 1], [0, -1], [-1, 1], [-1, 0], [-1, -1]]
+  MOVES = [[1, 1], [1, 0], [1, -1], [0, 1], [0, -1], [-1, 1], [-1, 0], [-1, -1]].freeze
 
   def initialize(player_index, piece_index)
     icon = player_index.zero? ? '♔' : '♚'
