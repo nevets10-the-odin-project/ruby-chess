@@ -61,6 +61,8 @@ class Board
     return unless target_piece
     return unless target_piece.player_index == current_player
     return if destination_piece && destination_piece.player_index == current_player
+
+    p blocking_piece?(target_coordinates, destination_coordinates)
     return if target_piece.properties.none?('leap') && blocking_piece?(target_coordinates, destination_coordinates)
 
     possible_moves = target_piece.filter_moves(target_coordinates)
@@ -68,6 +70,9 @@ class Board
   end
 
   def blocking_piece?(target, destination, current_space = Array.new(target))
+    p "target: #{target}"
+    p "current: #{current_space}"
+    p "destination: #{destination}"
     return true if spaces[current_space[0]][current_space[1]] && target.join('') != current_space.join('')
     return false if current_space.join('') == destination.join('')
 
@@ -84,7 +89,7 @@ class Board
             elsif destination[1] < current_space[1]
               current_space[1] -= 1
             else
-              current_space[0]
+              current_space[1]
             end
 
     blocking_piece?(target, destination, [new_x, new_y])
