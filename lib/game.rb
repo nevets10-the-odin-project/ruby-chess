@@ -39,8 +39,9 @@ class Game
       board.print_board
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
+      piece_abbreviation = board.piece_abbreviation(input)
       board.update_board(input)
-      board.update_move_history(input)
+      board.update_move_history(piece_abbreviation + input)
       break if game_over?
 
       @current_player = @current_player >= 1 ? 0 : 1
