@@ -40,6 +40,7 @@ class Game
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
       board.update_board(input)
+      board.update_move_history(input)
       break if game_over?
 
       @current_player = @current_player >= 1 ? 0 : 1
