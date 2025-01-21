@@ -101,4 +101,8 @@ class Board
     @spaces[destination_coordinates[0]][destination_coordinates[1]] = piece
     @spaces[target_coordinates[0]][target_coordinates[1]] = nil
   end
+
+  def update_move_history(move)
+    @move_history << move
+  end
 end
