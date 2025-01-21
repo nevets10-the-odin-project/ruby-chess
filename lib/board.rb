@@ -55,18 +55,18 @@ class Board
   end
 
   def validate_move(target, destination, current_player)
-    target_coordinates = [BOARD_COLUMNS.index(target[0]), target[1].to_i - 1]
-    destination_coordinates = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
-    target_piece = spaces[target_coordinates[0]][target_coordinates[1]]
-    destination_piece = spaces[destination_coordinates[0]][destination_coordinates[1]]
+    target_xy = [BOARD_COLUMNS.index(target[0]), target[1].to_i - 1]
+    destination_xy = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
+    target_piece = spaces[target_xy[0]][target_xy[1]]
+    destination_piece = spaces[destination_xy[0]][destination_xy[1]]
     return unless target_piece&.player_index == current_player
     return if destination_piece&.player_index == current_player
-    return if target_piece.properties.none?('leap') && blocking_piece?(target_coordinates, destination_coordinates)
-    return if target_piece.type == 'Pawn' && destination_piece && destination_coordinates[0] == target_coordinates[0]
-    return if target_piece.type == 'Pawn' && !destination_piece && destination_coordinates[0] != target_coordinates[0]
+    return if target_piece.properties.none?('leap') && blocking_piece?(target_xy, destination_xy)
+    return if target_piece.type == 'Pawn' && destination_piece && destination_xy[0] == target_xy[0]
+    return if target_piece.type == 'Pawn' && !destination_piece && destination_xy[0] != target_xy[0]
 
-    possible_moves = target_piece.filter_moves(target_coordinates)
-    destination_coordinates if possible_moves.any?(destination_coordinates)
+    possible_moves = target_piece.filter_moves(target_xy)
+    destination_xy if possible_moves.any?(destination_xy)
   end
 
   def blocking_piece?(target, destination, current_space = Array.new(target))
@@ -93,13 +93,13 @@ class Board
   end
 
   def update_board(user_input)
-    target_coordinates = [BOARD_COLUMNS.index(user_input[0]), user_input[1].to_i - 1]
-    destination_coordinates = [BOARD_COLUMNS.index(user_input[2]), user_input[3].to_i - 1]
+    target_xy = [BOARD_COLUMNS.index(user_input[0]), user_input[1].to_i - 1]
+    destination_xy = [BOARD_COLUMNS.index(user_input[2]), user_input[3].to_i - 1]
     options = user_input[4].split('') if user_input[4]
-    piece = @spaces[target_coordinates[0]][target_coordinates[1]]
+    piece = @spaces[target_xy[0]][target_xy[1]]
 
-    @spaces[destination_coordinates[0]][destination_coordinates[1]] = piece
-    @spaces[target_coordinates[0]][target_coordinates[1]] = nil
+    @spaces[destination_xy[0]][destination_xy[1]] = piece
+    @spaces[target_xy[0]][target_xy[1]] = nil
   end
 
   def update_move_history(move)
