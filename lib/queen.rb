@@ -20,4 +20,8 @@ class Queen < Piece
     end
     possible_moves.filter { |x, y| x.between?(0, 7) && y.between?(0, 7) }
   end
+
+  def valid_move?(target_xy, destination_xy, destination_piece, last_move)
+    true
+  end
 end
