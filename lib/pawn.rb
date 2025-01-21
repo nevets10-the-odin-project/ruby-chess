@@ -20,7 +20,12 @@ class Pawn < Piece
   def valid_move?(target_xy, destination_xy, destination_piece, last_move)
     return false if destination_piece && destination_xy[0] == target_xy[0]
     return false if !destination_piece && destination_xy[0] != target_xy[0]
+    return false if target_xy[0] != destination_xy[0] && en_passant?(destination_xy, last_move)
 
     true
+  end
+
+  def en_passant?(destination_xy, last_move)
+    true if last_move[1].match?(/(([0-7])(2)\2(4)|([0-7])(7)\5(5))/) && last_move[0] == destination_xy[0]
   end
 end
