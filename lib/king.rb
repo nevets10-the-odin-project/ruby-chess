@@ -5,7 +5,7 @@ class King < Piece
 
   def initialize(player_index, piece_index)
     icon = player_index.zero? ? '♔' : '♚'
-    super('King', player_index, piece_index, icon)
+    super('King', player_index, piece_index, icon, 'b')
   end
 
   def filter_moves(current_position, board)
