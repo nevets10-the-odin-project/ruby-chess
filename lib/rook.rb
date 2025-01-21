@@ -14,4 +14,8 @@ class Rook < Piece
     end
     possible_moves
   end
+
+  def valid_move?(target_xy, destination_xy, destination_piece, last_move)
+    true
+  end
 end
