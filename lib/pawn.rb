@@ -16,4 +16,11 @@ class Pawn < Piece
 
     potential_moves.filter { |move| move[0].between?(0, 7) && move[1].between?(0, 7) }
   end
+
+  def valid_move?(target_xy, destination_xy, destination_piece, last_move)
+    return false if destination_piece && destination_xy[0] == target_xy[0]
+    return false if !destination_piece && destination_xy[0] != target_xy[0]
+
+    true
+  end
 end

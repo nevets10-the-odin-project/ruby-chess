@@ -62,17 +62,10 @@ class Board
     return unless target_piece&.player_index == current_player
     return if destination_piece&.player_index == current_player
     return if target_piece.properties.none?('leap') && blocking_piece?(target_xy, destination_xy)
-    return if target_piece.type == 'Pawn' && valid_pawn?(target_xy, destination_xy, destination_piece)
+    return unless target_piece.valid_move?(target_xy, destination_xy, destination_piece, @move_history.last)
 
     possible_moves = target_piece.filter_moves(target_xy)
     destination_xy if possible_moves.any?(destination_xy)
-  end
-
-  def valid_pawn?(target_xy, destination_xy, destination_piece)
-    return false if destination_piece && destination_xy[0] == target_xy[0]
-    return false unless !destination_piece && destination_xy[0] != target_xy[0]
-
-    true
   end
 
   def blocking_piece?(target, destination, current_space = Array.new(target))
