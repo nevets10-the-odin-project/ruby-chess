@@ -5,7 +5,7 @@ class Knight < Piece
 
   def initialize(player_index, piece_index)
     icon = player_index.zero? ? '♘' : '♞'
-    super('Knight', player_index, piece_index, icon, ['leap'])
+    super('Knight', player_index, piece_index, icon, 'n', ['leap'])
   end
 
   def filter_moves(current_position)
