@@ -105,4 +105,9 @@ class Board
   def update_move_history(move)
     @move_history << move
   end
+
+  def piece_abbreviation(user_input)
+    piece = [BOARD_COLUMNS.index(user_input[0]), user_input[1].to_i - 1]
+    piece.abbreviation
+  end
 end
