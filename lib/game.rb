@@ -61,11 +61,12 @@ class Game
   def validate_input(user_input)
     target = user_input[0, 2]
     destination = user_input[2, 2]
-    options = user_input[4].split('') if user_input[4]
+    castling = user_input[4]
 
     return unless target.match?(/[a-h][1-8]/)
     return unless destination.match?(/[a-h][1-8]/)
 
+    move = board.generate_move(target, destination, castling, @current_player)
     user_input if board.validate_move(target, destination, @current_player)
   end
 

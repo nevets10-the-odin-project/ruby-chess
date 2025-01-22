@@ -58,6 +58,18 @@ class Board
     [BOARD_COLUMNS.index(input[0]), input[1].to_i - 1]
   end
 
+  def generate_move(target, destination, castling, current_player)
+    {
+      target_xy: convert_input(target),
+      destination_xy: convert_input(destination),
+      target_piece: spaces[convert_input(target)[0]][convert_input(target)[1]],
+      destination_piece: spaces[convert_input(destination)[0]][convert_input(destination)[1]],
+      current_player: current_player,
+      castling: castling,
+      en_passant: false
+    }
+  end
+
   def validate_move(target, destination, current_player)
     target_xy = convert_input(target)
     destination_xy = convert_input(destination)
