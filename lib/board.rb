@@ -59,11 +59,14 @@ class Board
     destination_xy = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
     target_piece = spaces[target_xy[0]][target_xy[1]]
     destination_piece = spaces[destination_xy[0]][destination_xy[1]]
-    last_move = [BOARD_COLUMNS.index(@move_history.last[0]), @move_history.last[1].to_i - 1] if @move_history.last
+    if @move_history.last
+      last_move = "#{BOARD_COLUMNS.index(@move_history.last[1])}#{@move_history.last[2].to_i - 1}#{BOARD_COLUMNS.index(@move_history.last[3])}#{@move_history.last[4].to_i - 1}"
+    end
+    last_piece_abbvr = @move_history.last[0, 1] if @move_history.last
     return unless target_piece&.player_index == current_player
     return if destination_piece&.player_index == current_player
     return if target_piece.properties.none?('leap') && blocking_piece?(target_xy, destination_xy)
-    return unless target_piece.valid_move?(target_xy, destination_xy, destination_piece, last_move)
+    return unless target_piece.valid_move?(target_xy, destination_xy, destination_piece, last_move, last_piece_abbvr)
 
     possible_moves = target_piece.filter_moves(target_xy)
     destination_xy if possible_moves.any?(destination_xy)
