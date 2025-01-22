@@ -78,6 +78,7 @@ class Board
                    nil)
     end
 
+    target_piece.incr_move_count
     destination_xy
   end
 
