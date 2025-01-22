@@ -68,6 +68,9 @@ class Board
     return if target_piece.properties.none?('leap') && blocking_piece?(target_xy, destination_xy)
     return unless target_piece.valid_move?(target_xy, destination_xy, destination_piece, last_move, last_piece_abbvr)
 
+    possible_moves = target_piece.filter_moves(target_xy)
+    return unless possible_moves.any?(destination_xy)
+
     if last_move && target_piece.type == 'Pawn' && target_piece.en_passant?(
       target_xy, destination_xy, last_move, last_piece_abbvr
     )
@@ -75,8 +78,7 @@ class Board
                    nil)
     end
 
-    possible_moves = target_piece.filter_moves(target_xy)
-    destination_xy if possible_moves.any?(destination_xy)
+    destination_xy
   end
 
   def blocking_piece?(target, destination, current_space = Array.new(target))
