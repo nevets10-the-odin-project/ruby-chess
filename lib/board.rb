@@ -54,13 +54,17 @@ class Board
     puts '    a   b   c   d   e   f   g   h'
   end
 
+  def convert_input(input)
+    [BOARD_COLUMNS.index(input[0]), input[1].to_i - 1]
+  end
+
   def validate_move(target, destination, current_player)
-    target_xy = [BOARD_COLUMNS.index(target[0]), target[1].to_i - 1]
-    destination_xy = [BOARD_COLUMNS.index(destination[0]), destination[1].to_i - 1]
+    target_xy = convert_input(target)
+    destination_xy = convert_input(destination)
     target_piece = spaces[target_xy[0]][target_xy[1]]
     destination_piece = spaces[destination_xy[0]][destination_xy[1]]
     if @move_history.last
-      last_move = "#{BOARD_COLUMNS.index(@move_history.last[1])}#{@move_history.last[2].to_i - 1}#{BOARD_COLUMNS.index(@move_history.last[3])}#{@move_history.last[4].to_i - 1}"
+      last_move = "#{convert_input(@move_history.last[1..2]).join('')}#{convert_input(@move_history.last[3..4]).join('')}"
     end
     last_piece_abbvr = @move_history.last[0, 1] if @move_history.last
     return unless target_piece&.player_index == current_player
@@ -106,8 +110,8 @@ class Board
   end
 
   def update_board(user_input)
-    target_xy = [BOARD_COLUMNS.index(user_input[0]), user_input[1].to_i - 1]
-    destination_xy = [BOARD_COLUMNS.index(user_input[2]), user_input[3].to_i - 1]
+    target_xy = convert_input(user_input[0..1])
+    destination_xy = convert_input(user_input[2..3])
     options = user_input[4].split('') if user_input[4]
     piece = @spaces[target_xy[0]][target_xy[1]]
 
@@ -124,7 +128,7 @@ class Board
   end
 
   def piece_abbreviation(user_input)
-    piece = spaces[BOARD_COLUMNS.index(user_input[0])][user_input[1].to_i - 1]
+    piece = spaces[convert_input(user_input)[0]][convert_input(user_input)[1]]
     piece.abbreviation
   end
 end
