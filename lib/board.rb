@@ -68,6 +68,13 @@ class Board
     return if target_piece.properties.none?('leap') && blocking_piece?(target_xy, destination_xy)
     return unless target_piece.valid_move?(target_xy, destination_xy, destination_piece, last_move, last_piece_abbvr)
 
+    if last_move && target_piece.type == 'Pawn' && target_piece.en_passant?(
+      target_xy, destination_xy, last_move, last_piece_abbvr
+    )
+      update_space([last_move[2].to_i, last_move[3].to_i],
+                   nil)
+    end
+
     possible_moves = target_piece.filter_moves(target_xy)
     destination_xy if possible_moves.any?(destination_xy)
   end
@@ -103,6 +110,10 @@ class Board
 
     @spaces[destination_xy[0]][destination_xy[1]] = piece
     @spaces[target_xy[0]][target_xy[1]] = nil
+  end
+
+  def update_space(space_xy, new_value)
+    @spaces[space_xy[0]][space_xy[1]] = new_value
   end
 
   def update_move_history(move)

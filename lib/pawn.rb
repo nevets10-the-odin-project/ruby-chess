@@ -18,20 +18,14 @@ class Pawn < Piece
   end
 
   def valid_move?(target_xy, destination_xy, destination_piece, last_move, last_piece_abbvr)
-    p last_piece_abbvr
-    p destination_xy
-    p last_move
-    return true if target_xy[0] != destination_xy[0] && en_passant?(destination_xy, last_move, last_piece_abbvr)
+    return true if en_passant?(target_xy, destination_xy, last_move, last_piece_abbvr)
     return false if destination_piece && destination_xy[0] == target_xy[0]
     return false if !destination_piece && destination_xy[0] != target_xy[0]
 
     true
   end
 
-  def en_passant?(destination_xy, last_move, last_piece_abbvr)
-    p last_piece_abbvr == 'p'
-    p last_move.match?(/(([0-7])(1)\2(3)|([0-7])(6)\5(4))/)
-    p last_move[0] == destination_xy[0]
-    last_piece_abbvr == 'p' && last_move.match?(/(([0-7])(1)\2(3)|([0-7])(6)\5(4))/) && last_move[2].to_i == destination_xy[0]
+  def en_passant?(target_xy, destination_xy, last_move, last_piece_abbvr)
+    target_xy[0] != destination_xy[0] && last_piece_abbvr == 'p' && last_move.match?(/(([0-7])(1)\2(3)|([0-7])(6)\5(4))/) && last_move[2].to_i == destination_xy[0]
   end
 end
