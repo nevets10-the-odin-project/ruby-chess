@@ -126,13 +126,15 @@ class Board
   end
 
   def update_board(user_input)
-    target_xy = convert_input(user_input[0..1])
-    destination_xy = convert_input(user_input[2..3])
-    options = user_input[4].split('') if user_input[4]
-    piece = @spaces[target_xy[0]][target_xy[1]]
+    if @move_history.last
+      last_target_xy = convert_input(@move_history.last[1..2]).join('')
+      last_destination_xy = convert_input(@move_history.last[3..4]).join('')
+      last_move = "#{last_target_xy}#{last_destination_xy}"
+    end
 
-    @spaces[destination_xy[0]][destination_xy[1]] = piece
-    @spaces[target_xy[0]][target_xy[1]] = nil
+    update_space(@move[:target_xy], nil)
+    update_space(@move[:destination_xy], @move[:target_piece])
+    update_space([last_move[2].to_i, last_move[3].to_i], nil) if @move[:en_passant]
   end
 
   def update_space(space_xy, new_value)
