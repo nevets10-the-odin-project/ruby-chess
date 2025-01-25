@@ -67,7 +67,7 @@ class Game
     return unless destination.match?(/[a-h][1-8]/)
 
     move = board.generate_move(target, destination, castling, @current_player)
-    user_input if board.validate_move(target, destination, @current_player)
+    user_input if board.validate_move(move)
   end
 
   def game_over?
