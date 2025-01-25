@@ -125,7 +125,7 @@ class Board
     blocking_piece?(target, destination, [new_x, new_y])
   end
 
-  def update_board(user_input)
+  def update_board
     if @move_history.last
       last_target_xy = convert_input(@move_history.last[1..2]).join('')
       last_destination_xy = convert_input(@move_history.last[3..4]).join('')
