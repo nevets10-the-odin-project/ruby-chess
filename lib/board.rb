@@ -81,7 +81,7 @@ class Board
     last_piece_abbvr = @move_history.last[0, 1] if @move_history.last
 
     return unless @move[:target_piece]&.player_index == @move[:current_player]
-    return unless @move[:target_piece].valid_move?(move, last_move, last_piece_abbvr)
+    return unless @move[:target_piece].valid_move?(@move, last_move, last_piece_abbvr)
     return if @move[:destination_piece]&.player_index == @move[:current_player]
     return if @move[:target_piece].properties.none?('leap') && blocking_piece?(@move[:target_xy],
                                                                                @move[:destination_xy])
@@ -92,11 +92,6 @@ class Board
 
     possible_moves = @move[:target_piece].filter_moves(@move[:target_xy])
     return unless possible_moves.any?(@move[:destination_xy])
-
-    # if last_move && @move[:target_piece].type == 'Pawn' && @move[:target_piece].en_passant?&.call(move, last_move, last_piece_abbvr)
-    # update_space([last_move[2].to_i, last_move[3].to_i],
-    # nil)
-    # end
 
     @move[:target_piece].incr_move_count
     @move[:destination_xy]
