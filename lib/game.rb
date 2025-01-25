@@ -42,6 +42,8 @@ class Game
       piece_abbreviation = board.piece_abbreviation(input)
       board.update_board
       board.update_move_history(piece_abbreviation + input)
+      castling = input[4]
+      player.update_castle if castling
       break if game_over?
 
       @current_player = @current_player >= 1 ? 0 : 1
