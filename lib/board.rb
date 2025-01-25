@@ -83,8 +83,7 @@ class Board
     return unless @move[:target_piece]&.player_index == @move[:current_player]
     return unless @move[:target_piece].valid_move?(@move, last_move, last_piece_abbvr)
     return if @move[:destination_piece]&.player_index == @move[:current_player]
-    return if @move[:target_piece].properties.none?('leap') && blocking_piece?(@move[:target_xy],
-                                                                               @move[:destination_xy])
+    return if @move[:target_piece].properties.none?('leap') && blocking_piece?
 
     if @move[:target_piece].type == 'Pawn' && @move[:target_piece].en_passant?(move, last_move, last_piece_abbvr)
       @move[:en_passant] = true
@@ -96,27 +95,27 @@ class Board
     @move[:destination_xy]
   end
 
-  def blocking_piece?(target, destination, current_space = Array.new(target))
-    return false if current_space.join('') == destination.join('')
-    return true if spaces[current_space[0]][current_space[1]] && target.join('') != current_space.join('')
+  def blocking_piece?(current_space = Array.new(@move[:target_xy]))
+    return false if current_space.join('') == @move[:destination_xy].join('')
+    return true if spaces[current_space[0]][current_space[1]] && @move[:target_xy].join('') != current_space.join('')
 
-    new_x = if destination[0] > current_space[0]
+    new_x = if @move[:destination_xy][0] > current_space[0]
               current_space[0] += 1
-            elsif destination[0] < current_space[0]
+            elsif @move[:destination_xy][0] < current_space[0]
               current_space[0] -= 1
             else
               current_space[0]
             end
 
-    new_y = if destination[1] > current_space[1]
+    new_y = if @move[:destination_xy][1] > current_space[1]
               current_space[1] += 1
-            elsif destination[1] < current_space[1]
+            elsif @move[:destination_xy][1] < current_space[1]
               current_space[1] -= 1
             else
               current_space[1]
             end
 
-    blocking_piece?(target, destination, [new_x, new_y])
+    blocking_piece?([new_x, new_y])
   end
 
   def update_board
