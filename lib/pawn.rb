@@ -26,6 +26,8 @@ class Pawn < Piece
   end
 
   def en_passant?(move, last_move, last_piece_abbvr)
+    return unless last_move
+
     move[:target_xy][0] != move[:destination_xy][0] && last_piece_abbvr == 'p' && last_move.match?(/(([0-7])(1)\2(3)|([0-7])(6)\5(4))/) && last_move[2].to_i == move[:destination_xy][0]
   end
 end

@@ -1,12 +1,13 @@
 class Board
   attr_accessor :spaces
-  attr_reader :pieces, :move_history
+  attr_reader :pieces, :move, :move_history
 
   BOARD_COLUMNS = %w[a b c d e f g h].freeze
 
   def initialize(pieces)
     @pieces = pieces
     @spaces = build_spaces(pieces)
+    @move = nil
     @move_history = []
   end
 
@@ -59,7 +60,7 @@ class Board
   end
 
   def generate_move(target, destination, castling, current_player)
-    {
+    @move = {
       target_xy: convert_input(target),
       destination_xy: convert_input(destination),
       target_piece: spaces[convert_input(target)[0]][convert_input(target)[1]],
@@ -70,7 +71,7 @@ class Board
     }
   end
 
-  def validate_move(move)
+  def validate_move
     if @move_history.last
       last_target_xy = convert_input(@move_history.last[1..2]).join('')
       last_destination_xy = convert_input(@move_history.last[3..4]).join('')
@@ -79,22 +80,26 @@ class Board
 
     last_piece_abbvr = @move_history.last[0, 1] if @move_history.last
 
-    return unless move[:target_piece]&.player_index == move[:current_player]
-    return if move[:destination_piece]&.player_index == move[:current_player]
-    return if move[:target_piece].properties.none?('leap') && blocking_piece?(move[:target_xy], move[:destination_xy])
-    return unless move[:target_piece].valid_move?(move, last_move, last_piece_abbvr)
+    return unless @move[:target_piece]&.player_index == @move[:current_player]
+    return unless @move[:target_piece].valid_move?(move, last_move, last_piece_abbvr)
+    return if @move[:destination_piece]&.player_index == @move[:current_player]
+    return if @move[:target_piece].properties.none?('leap') && blocking_piece?(@move[:target_xy],
+                                                                               @move[:destination_xy])
 
-    possible_moves = move[:target_piece].filter_moves(move[:target_xy])
-    return unless possible_moves.any?(move[:destination_xy])
-
-    if last_move && move[:target_piece].type == 'Pawn' && move[:target_piece].en_passant?(move, last_move,
-                                                                                          last_piece_abbvr)
-      update_space([last_move[2].to_i, last_move[3].to_i],
-                   nil)
+    if @move[:target_piece].type == 'Pawn' && @move[:target_piece].en_passant?(move, last_move, last_piece_abbvr)
+      @move[:en_passant] = true
     end
 
-    move[:target_piece].incr_move_count
-    move[:destination_xy]
+    possible_moves = @move[:target_piece].filter_moves(@move[:target_xy])
+    return unless possible_moves.any?(@move[:destination_xy])
+
+    # if last_move && @move[:target_piece].type == 'Pawn' && @move[:target_piece].en_passant?&.call(move, last_move, last_piece_abbvr)
+    # update_space([last_move[2].to_i, last_move[3].to_i],
+    # nil)
+    # end
+
+    @move[:target_piece].incr_move_count
+    @move[:destination_xy]
   end
 
   def blocking_piece?(target, destination, current_space = Array.new(target))
