@@ -93,7 +93,6 @@ class Board
     possible_moves = @move[:target_piece].filter_moves(@move[:target_xy])
     return unless possible_moves.any?(@move[:destination_xy])
 
-    @move[:target_piece].incr_move_count
     @move[:destination_xy]
   end
 
@@ -127,6 +126,7 @@ class Board
       last_move = "#{last_target_xy}#{last_destination_xy}"
     end
 
+    @move[:target_piece].incr_move_count
     update_space(@move[:target_xy], nil)
     update_space(@move[:destination_xy], @move[:target_piece])
     update_space([last_move[2].to_i, last_move[3].to_i], nil) if @move[:en_passant]
