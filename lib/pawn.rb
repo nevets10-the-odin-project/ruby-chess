@@ -17,15 +17,17 @@ class Pawn < Piece
     potential_moves.filter { |move| move[0].between?(0, 7) && move[1].between?(0, 7) }
   end
 
-  def valid_move?(target_xy, destination_xy, destination_piece, last_move)
-    return false if destination_piece && destination_xy[0] == target_xy[0]
-    return false if !destination_piece && destination_xy[0] != target_xy[0]
-    return false if target_xy[0] != destination_xy[0] && en_passant?(destination_xy, last_move)
+  def valid_move?(move, last_move, last_piece_abbvr)
+    return true if en_passant?(move, last_move, last_piece_abbvr)
+    return false if move[:destination_piece] && move[:destination_xy][0] == move[:target_xy][0]
+    return false if !move[:destination_piece] && move[:destination_xy][0] != move[:target_xy][0]
 
     true
   end
 
-  def en_passant?(destination_xy, last_move)
-    true if last_move[1].match?(/(([0-7])(2)\2(4)|([0-7])(7)\5(5))/) && last_move[0] == destination_xy[0]
+  def en_passant?(move, last_move, last_piece_abbvr)
+    return unless last_move
+
+    move[:target_xy][0] != move[:destination_xy][0] && last_piece_abbvr == 'p' && last_move.match?(/(([0-7])(1)\2(3)|([0-7])(6)\5(4))/) && last_move[2].to_i == move[:destination_xy][0]
   end
 end

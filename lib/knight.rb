@@ -13,7 +13,7 @@ class Knight < Piece
     potential_moves.filter { |move| move[0].between?(0, 7) && move[1].between?(0, 7) }
   end
 
-  def valid_move?(target_xy, destination_xy, destination_piece, last_move)
+  def valid_move?(move, last_move, last_piece_abbvr)
     true
   end
 end

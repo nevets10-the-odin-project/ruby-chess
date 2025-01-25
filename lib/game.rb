@@ -40,7 +40,7 @@ class Game
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
       piece_abbreviation = board.piece_abbreviation(input)
-      board.update_board(input)
+      board.update_board
       board.update_move_history(piece_abbreviation + input)
       break if game_over?
 
@@ -61,12 +61,13 @@ class Game
   def validate_input(user_input)
     target = user_input[0, 2]
     destination = user_input[2, 2]
-    options = user_input[4].split('') if user_input[4]
+    castling = user_input[4]
 
     return unless target.match?(/[a-h][1-8]/)
     return unless destination.match?(/[a-h][1-8]/)
 
-    user_input if board.validate_move(target, destination, @current_player)
+    board.generate_move(target, destination, castling, @current_player)
+    user_input if board.validate_move
   end
 
   def game_over?
