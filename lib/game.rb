@@ -74,8 +74,4 @@ class Game
     move = board.generate_move(target, destination, castling, @current_player)
     move if board.validate_move(move)
   end
-
-  def game_over?
-    false
-  end
 end
