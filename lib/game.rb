@@ -37,17 +37,20 @@ class Game
     loop do
       # system 'clear -x'
       board.print_board
-      puts "It's #{players[current_player].color}'s turn!"
+      break if board.checkmate?(@current_player)
+
+      puts "It's #{players[@current_player].color}'s turn!"
       input = player_input
       piece_abbreviation = board.piece_abbreviation(input[:user_input])
       board.update_board(input[:move])
       board.update_move_history(piece_abbreviation + input[:user_input])
       castling = input[4]
       player.update_castle if castling
-      break if game_over?
 
       @current_player = @current_player >= 1 ? 0 : 1
     end
+
+    puts 'Checkmate!'
   end
 
   def player_input

@@ -154,8 +154,7 @@ class Board
     piece.abbreviation
   end
 
-  def check?(current_player)
-    king_xy = get_coordinates(current_player, 'King')
+  def check?(current_player, king_xy = get_coordinates(current_player, 'King'))
     other_player = current_player >= 1 ? 0 : 1
     opponent = opponent_pieces(current_player)
 
@@ -168,6 +167,31 @@ class Board
     end
 
     is_check
+  end
+
+  def checkmate?(current_player)
+    return false unless check?(current_player)
+
+    king_xy = get_coordinates(current_player, 'King')
+    king_piece = @spaces[king_xy[0]][king_xy[1]]
+    valid_moves = validated_moves(king_piece, king_xy, current_player)
+
+    check_counter = 0
+    valid_moves.each do |possible_xy|
+      check_counter += 1 if check?(current_player, possible_xy)
+    end
+
+    check_counter == valid_moves.length
+  end
+
+  def validated_moves(piece, piece_xy, current_player)
+    available_moves = piece.filter_moves(piece_xy)
+    moves = []
+    available_moves.each do |destination|
+      move = generate_move(piece_xy, destination, nil, current_player)
+      moves << validate_move(move) if validate_move(move)
+    end
+    moves
   end
 
   def get_coordinates(player_index, piece_type, piece_index = 0)
