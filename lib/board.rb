@@ -100,7 +100,8 @@ class Board
     possible_moves = move[:target_piece].filter_moves(move[:target_xy])
     return unless possible_moves.any?(move[:destination_xy])
 
-    check?(move[:current_player])
+    return nil if check?(move[:current_player])
+
     move[:destination_xy]
   end
 
@@ -155,14 +156,27 @@ class Board
 
   def check?(current_player)
     king_xy = get_coordinates(current_player, 'King')
+    other_player = current_player >= 1 ? 0 : 1
     opponent = opponent_pieces(current_player)
+
+    is_check = false
+
+    opponent.each do |piece|
+      coord = get_coordinates(other_player, piece.type, piece.piece_index)
+      move = generate_move(coord, king_xy, nil, other_player)
+      is_check = true if validate_move(move)
+    end
+
+    is_check
   end
 
-  def get_coordinates(player_index, piece_type)
+  def get_coordinates(player_index, piece_type, piece_index = 0)
     coordinates = nil
     @spaces.each_with_index do |column, col_index|
       column.each_with_index do |space, row_index|
-        if space&.player_index == player_index && space&.type == piece_type
+        next unless space
+
+        if space.player_index == player_index && space.type == piece_type && space.piece_index == piece_index
           coordinates = [col_index, row_index]
           break
         end
