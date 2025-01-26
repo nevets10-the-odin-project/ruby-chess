@@ -155,6 +155,7 @@ class Board
 
   def check?(current_player)
     king_xy = get_coordinates(current_player, 'King')
+    opponent = opponent_pieces(current_player)
   end
 
   def get_coordinates(player_index, piece_type)
@@ -169,5 +170,15 @@ class Board
       return coordinates if coordinates
     end
     coordinates
+  end
+
+  def opponent_pieces(cur_player)
+    pieces = []
+    @spaces.each do |column|
+      column.each do |space|
+        pieces << space if space && space.player_index != cur_player
+      end
+    end
+    pieces
   end
 end
