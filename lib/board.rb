@@ -56,7 +56,15 @@ class Board
   end
 
   def convert_input(input)
-    [BOARD_COLUMNS.index(input[0]), input[1].to_i - 1]
+    if input.instance_of?(String)
+      x_coord = BOARD_COLUMNS.index(input[0])
+      y_coord = input[1].to_i - 1
+    else
+      x_coord = input[0]
+      y_coord = input[1]
+    end
+
+    [x_coord, y_coord]
   end
 
   def generate_move(target, destination, castling, current_player)
