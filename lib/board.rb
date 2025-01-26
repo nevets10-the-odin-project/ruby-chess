@@ -71,10 +71,10 @@ class Board
     {
       target_xy: convert_input(target),
       destination_xy: convert_input(destination),
-      target_piece: spaces[convert_input(target)[0]][convert_input(target)[1]],
-      destination_piece: spaces[convert_input(destination)[0]][convert_input(destination)[1]],
+      target_piece: @spaces[convert_input(target)[0]][convert_input(target)[1]],
+      destination_piece: @spaces[convert_input(destination)[0]][convert_input(destination)[1]],
       current_player: current_player,
-      castling: castling,
+      castling: castling == 'c' && @spaces[convert_input(target)[0]][convert_input(target)[1]].type == 'King',
       en_passant: false
     }
   end
@@ -96,6 +96,8 @@ class Board
     if move[:target_piece].type == 'Pawn' && move[:target_piece].en_passant?(move, last_move, last_piece_abbvr)
       move[:en_passant] = true
     end
+
+    return if move[:target_piece].type == 'King' && move[:castling] && !valid_castling?(move)
 
     possible_moves = move[:target_piece].filter_moves(move[:target_xy])
     return unless possible_moves.any?(move[:destination_xy])
@@ -167,6 +169,15 @@ class Board
     end
 
     is_check
+  end
+
+  def valid_castling?(move)
+    rook_index = move[:destination_xy][0] < move[:target_xy][0] ? 0 : 1
+    rook_coord = get_coordinates(move[:current_player], 'Rook', rook_index)
+    rook_move = generate_move(rook_coord, move[:target_xy], nil, move[:current_player])
+    return false if blocking_piece?(rook_move)
+
+    true
   end
 
   def checkmate?(current_player)
