@@ -92,6 +92,7 @@ class Board
     possible_moves = move[:target_piece].filter_moves(move[:target_xy])
     return unless possible_moves.any?(move[:destination_xy])
 
+    check?(move[:current_player])
     move[:destination_xy]
   end
 
@@ -142,5 +143,23 @@ class Board
   def piece_abbreviation(user_input)
     piece = spaces[convert_input(user_input)[0]][convert_input(user_input)[1]]
     piece.abbreviation
+  end
+
+  def check?(current_player)
+    king_xy = get_coordinates(current_player, 'King')
+  end
+
+  def get_coordinates(player_index, piece_type)
+    coordinates = nil
+    @spaces.each_with_index do |column, col_index|
+      column.each_with_index do |space, row_index|
+        if space&.player_index == player_index && space&.type == piece_type
+          coordinates = [col_index, row_index]
+          break
+        end
+      end
+      return coordinates if coordinates
+    end
+    coordinates
   end
 end
