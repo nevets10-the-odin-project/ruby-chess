@@ -44,8 +44,6 @@ class Game
       piece_abbreviation = board.piece_abbreviation(input[:user_input])
       board.update_board(input[:move])
       board.update_move_history(piece_abbreviation + input[:user_input])
-      castling = input[4]
-      player.update_castle if castling
 
       @current_player = @current_player >= 1 ? 0 : 1
     end
@@ -68,6 +66,7 @@ class Game
     destination = user_input[2, 2]
     castling = user_input[4]
 
+    return if castling && castling != 'c'
     return unless target.match?(/[a-h][1-8]/)
     return unless destination.match?(/[a-h][1-8]/)
 
