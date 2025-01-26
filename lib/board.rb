@@ -60,7 +60,7 @@ class Board
   end
 
   def generate_move(target, destination, castling, current_player)
-    @move = {
+    {
       target_xy: convert_input(target),
       destination_xy: convert_input(destination),
       target_piece: spaces[convert_input(target)[0]][convert_input(target)[1]],
@@ -71,7 +71,7 @@ class Board
     }
   end
 
-  def validate_move
+  def validate_move(move)
     if @move_history.last
       last_target_xy = convert_input(@move_history.last[1..2]).join('')
       last_destination_xy = convert_input(@move_history.last[3..4]).join('')
@@ -80,55 +80,55 @@ class Board
 
     last_piece_abbvr = @move_history.last[0, 1] if @move_history.last
 
-    return unless @move[:target_piece]&.player_index == @move[:current_player]
-    return unless @move[:target_piece].valid_move?(@move, last_move, last_piece_abbvr)
-    return if @move[:destination_piece]&.player_index == @move[:current_player]
-    return if @move[:target_piece].properties.none?('leap') && blocking_piece?
+    return unless move[:target_piece]&.player_index == move[:current_player]
+    return unless move[:target_piece].valid_move?(move, last_move, last_piece_abbvr)
+    return if move[:destination_piece]&.player_index == move[:current_player]
+    return if move[:target_piece].properties.none?('leap') && blocking_piece?(move)
 
-    if @move[:target_piece].type == 'Pawn' && @move[:target_piece].en_passant?(move, last_move, last_piece_abbvr)
-      @move[:en_passant] = true
+    if move[:target_piece].type == 'Pawn' && move[:target_piece].en_passant?(move, last_move, last_piece_abbvr)
+      move[:en_passant] = true
     end
 
-    possible_moves = @move[:target_piece].filter_moves(@move[:target_xy])
-    return unless possible_moves.any?(@move[:destination_xy])
+    possible_moves = move[:target_piece].filter_moves(move[:target_xy])
+    return unless possible_moves.any?(move[:destination_xy])
 
-    @move[:destination_xy]
+    move[:destination_xy]
   end
 
-  def blocking_piece?(current_space = Array.new(@move[:target_xy]))
-    return false if current_space.join('') == @move[:destination_xy].join('')
-    return true if spaces[current_space[0]][current_space[1]] && @move[:target_xy].join('') != current_space.join('')
+  def blocking_piece?(move, current_space = Array.new(move[:target_xy]))
+    return false if current_space.join('') == move[:destination_xy].join('')
+    return true if spaces[current_space[0]][current_space[1]] && move[:target_xy].join('') != current_space.join('')
 
-    new_x = if @move[:destination_xy][0] > current_space[0]
+    new_x = if move[:destination_xy][0] > current_space[0]
               current_space[0] += 1
-            elsif @move[:destination_xy][0] < current_space[0]
+            elsif move[:destination_xy][0] < current_space[0]
               current_space[0] -= 1
             else
               current_space[0]
             end
 
-    new_y = if @move[:destination_xy][1] > current_space[1]
+    new_y = if move[:destination_xy][1] > current_space[1]
               current_space[1] += 1
-            elsif @move[:destination_xy][1] < current_space[1]
+            elsif move[:destination_xy][1] < current_space[1]
               current_space[1] -= 1
             else
               current_space[1]
             end
 
-    blocking_piece?([new_x, new_y])
+    blocking_piece?(move, [new_x, new_y])
   end
 
-  def update_board
+  def update_board(move)
     if @move_history.last
       last_target_xy = convert_input(@move_history.last[1..2]).join('')
       last_destination_xy = convert_input(@move_history.last[3..4]).join('')
       last_move = "#{last_target_xy}#{last_destination_xy}"
     end
 
-    @move[:target_piece].incr_move_count
-    update_space(@move[:target_xy], nil)
-    update_space(@move[:destination_xy], @move[:target_piece])
-    update_space([last_move[2].to_i, last_move[3].to_i], nil) if @move[:en_passant]
+    move[:target_piece].incr_move_count
+    update_space(move[:target_xy], nil)
+    update_space(move[:destination_xy], move[:target_piece])
+    update_space([last_move[2].to_i, last_move[3].to_i], nil) if move[:en_passant]
   end
 
   def update_space(space_xy, new_value)

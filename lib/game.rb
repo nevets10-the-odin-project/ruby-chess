@@ -39,9 +39,9 @@ class Game
       board.print_board
       puts "It's #{players[current_player].color}'s turn!"
       input = player_input
-      piece_abbreviation = board.piece_abbreviation(input)
-      board.update_board
-      board.update_move_history(piece_abbreviation + input)
+      piece_abbreviation = board.piece_abbreviation(input[:user_input])
+      board.update_board(input[:move])
+      board.update_move_history(piece_abbreviation + input[:user_input])
       castling = input[4]
       player.update_castle if castling
       break if game_over?
@@ -54,7 +54,7 @@ class Game
     loop do
       user_input = gets.chomp
       validated_input = validate_input(user_input)
-      return validated_input if validated_input
+      return { user_input: user_input, move: validated_input } if validated_input
 
       puts 'Illegal move.'
     end
@@ -68,8 +68,8 @@ class Game
     return unless target.match?(/[a-h][1-8]/)
     return unless destination.match?(/[a-h][1-8]/)
 
-    board.generate_move(target, destination, castling, @current_player)
-    user_input if board.validate_move
+    move = board.generate_move(target, destination, castling, @current_player)
+    move if board.validate_move(move)
   end
 
   def game_over?
