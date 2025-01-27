@@ -14,8 +14,4 @@ class Rook < Piece
     end
     possible_moves
   end
-
-  def valid_move?(move, last_move, last_piece_abbvr)
-    true
-  end
 end

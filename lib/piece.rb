@@ -14,4 +14,8 @@ class Piece
   def incr_move_count
     @move_count += 1
   end
+
+  def valid_move?(move, last_move, last_piece_abbvr)
+    true
+  end
 end
