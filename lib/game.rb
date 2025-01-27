@@ -11,10 +11,10 @@ require_relative 'file_handler'
 class Game
   attr_reader :board, :players, :current_player
 
-  def initialize
-    @board = Board.new(init_pieces)
+  def initialize(data)
+    @board = Board.new(data || init_pieces)
     @players = [Player.new('White'), Player.new('Black')]
-    @current_player = 0
+    @current_player = data&.current_player || 0
     @file_handler = File_handler.new
   end
 

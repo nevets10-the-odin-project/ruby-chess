@@ -4,11 +4,16 @@ class Board
 
   BOARD_COLUMNS = %w[a b c d e f g h].freeze
 
-  def initialize(pieces)
-    @pieces = pieces
-    @spaces = build_spaces(pieces)
+  def initialize(data)
+    if data.class == Hash
+      @spaces = load_spaces(data)
+      @move_history = data.move_history
+    else
+      @spaces = build_spaces(data)
+      @move_history = []
+    end
+    @pieces = nil
     @move = nil
-    @move_history = []
   end
 
   def build_spaces(pieces)
