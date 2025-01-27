@@ -6,6 +6,7 @@ require_relative 'rook'
 require_relative 'bishop'
 require_relative 'knight'
 require_relative 'pawn'
+require_relative 'file_handler'
 
 class Game
   attr_reader :board, :players, :current_player
@@ -14,6 +15,7 @@ class Game
     @board = Board.new(init_pieces)
     @players = [Player.new('White'), Player.new('Black')]
     @current_player = 0
+    @file_handler = File_handler.new
   end
 
   def init_pieces
@@ -54,10 +56,15 @@ class Game
   def player_input
     loop do
       user_input = gets.chomp
-      validated_input = validate_input(user_input)
-      return { user_input: user_input, move: validated_input } if validated_input
+      if user_input == 'save'
+        @file_handler.save(self)
+        puts 'Saved.'
+      else
+        validated_input = validate_input(user_input)
+        return { user_input: user_input, move: validated_input } if validated_input
 
-      puts 'Illegal move.'
+        puts 'Illegal move.'
+      end
     end
   end
 
