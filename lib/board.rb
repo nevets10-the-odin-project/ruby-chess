@@ -190,6 +190,10 @@ class Board
     update_space([last_move[2].to_i, last_move[3].to_i], nil) if move[:en_passant]
     return unless move[:castling]
 
+    update_castling_rook(move)
+  end
+
+  def update_castling_rook(move)
     rook_index = move[:destination_xy][0] < move[:target_xy][0] ? 0 : 1
     rook_coord = get_coordinates(move[:current_player], 'Rook', rook_index)
     rook_piece = @spaces[rook_coord[0]][rook_coord[1]]
