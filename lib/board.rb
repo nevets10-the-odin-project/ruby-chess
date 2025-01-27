@@ -141,6 +141,15 @@ class Board
     update_space(move[:target_xy], nil)
     update_space(move[:destination_xy], move[:target_piece])
     update_space([last_move[2].to_i, last_move[3].to_i], nil) if move[:en_passant]
+    return unless move[:castling]
+
+    rook_index = move[:destination_xy][0] < move[:target_xy][0] ? 0 : 1
+    rook_coord = get_coordinates(move[:current_player], 'Rook', rook_index)
+    rook_piece = @spaces[rook_coord[0]][rook_coord[1]]
+    rook_piece.incr_move_count
+
+    update_space(move[:target_xy], rook_piece)
+    update_space(rook_coord, nil)
   end
 
   def update_space(space_xy, new_value)
@@ -172,8 +181,13 @@ class Board
   end
 
   def valid_castling?(move)
+    return false unless move[:target_piece].move_count.zero?
+
     rook_index = move[:destination_xy][0] < move[:target_xy][0] ? 0 : 1
     rook_coord = get_coordinates(move[:current_player], 'Rook', rook_index)
+    rook_piece = @spaces[rook_coord[0]][rook_coord[1]]
+    return false unless rook_piece.move_count.zero?
+
     rook_move = generate_move(rook_coord, move[:target_xy], nil, move[:current_player])
     return false if blocking_piece?(rook_move)
 
