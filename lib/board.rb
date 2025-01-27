@@ -6,8 +6,7 @@ require_relative 'knight'
 require_relative 'pawn'
 
 class Board
-  attr_accessor :spaces
-  attr_reader :pieces, :move, :move_history
+  attr_reader :spaces, :pieces, :move, :move_history
 
   BOARD_COLUMNS = %w[a b c d e f g h].freeze
 
@@ -19,8 +18,6 @@ class Board
       @spaces = build_spaces(data)
       @move_history = []
     end
-    @pieces = nil
-    @move = nil
   end
 
   def load_spaces(spaces)
@@ -188,9 +185,16 @@ class Board
     update_space(move[:target_xy], nil)
     update_space(move[:destination_xy], move[:target_piece])
     update_space([last_move[2].to_i, last_move[3].to_i], nil) if move[:en_passant]
+    pawn_promotion(move) if move[:target_piece].type == 'Pawn'
     return unless move[:castling]
 
     update_castling_rook(move)
+  end
+
+  def pawn_promotion(move)
+    return unless move[:player_index] == 0 && move[:destination_xy][1] == 7
+
+    update_space(move[:destination_xy], Queen.new(0))
   end
 
   def update_castling_rook(move)
