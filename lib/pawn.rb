@@ -1,9 +1,9 @@
 require_relative 'piece'
 
 class Pawn < Piece
-  def initialize(player_index, piece_index)
+  def initialize(player_index, piece_index, move_count = 0)
     icon = player_index.zero? ? '♙' : '♟'
-    super('Pawn', player_index, piece_index, icon, 'p')
+    super('Pawn', player_index, piece_index, icon, 'p', move_count)
   end
 
   def filter_moves(current_position)

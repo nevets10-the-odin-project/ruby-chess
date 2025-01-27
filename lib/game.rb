@@ -14,7 +14,7 @@ class Game
   def initialize(data)
     @board = Board.new(data || init_pieces)
     @players = [Player.new('White'), Player.new('Black')]
-    @current_player = data&.current_player || 0
+    @current_player = data && data['current_player'] || 0
     @file_handler = File_handler.new
   end
 

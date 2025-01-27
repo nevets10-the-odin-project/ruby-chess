@@ -3,9 +3,9 @@ require_relative 'piece'
 class Knight < Piece
   MOVES = [[2, 1], [1, 2], [-2, 1], [1, -2], [2, -1], [-1, 2], [-2, -1], [-1, -2]].freeze
 
-  def initialize(player_index, piece_index)
+  def initialize(player_index, piece_index, move_count = 0)
     icon = player_index.zero? ? '♘' : '♞'
-    super('Knight', player_index, piece_index, icon, 'n', ['leap'])
+    super('Knight', player_index, piece_index, icon, 'n', move_count, ['leap'])
   end
 
   def filter_moves(current_position)

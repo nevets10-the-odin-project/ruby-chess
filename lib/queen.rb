@@ -1,9 +1,9 @@
 require_relative 'piece'
 
 class Queen < Piece
-  def initialize(player_index, piece_index)
+  def initialize(player_index, piece_index, move_count = 0)
     icon = player_index.zero? ? '♕' : '♛'
-    super('Queen', player_index, piece_index, icon, 'q')
+    super('Queen', player_index, piece_index, icon, 'q', move_count)
   end
 
   def filter_moves(current_position)

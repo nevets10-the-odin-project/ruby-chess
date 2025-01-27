@@ -29,12 +29,10 @@ class File_handler
       col.each_with_index do |space, row_index|
         serialized << if space
                         {
-                          "#{col_index}#{row_index}": {
-                            type: space.type,
-                            player_index: space.player_index,
-                            piece_index: space.piece_index,
-                            move_count: space.move_count
-                          }
+                          type: space.type,
+                          player_index: space.player_index,
+                          piece_index: space.piece_index,
+                          move_count: space.move_count
                         }
                       end
       end
@@ -50,7 +48,7 @@ class File_handler
 
   def load
     file = File.open('save.txt')
-    data = JSON.parse(file)
+    data = JSON.load(file)
     file.close
     data
   end

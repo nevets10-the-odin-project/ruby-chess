@@ -1,3 +1,10 @@
+require_relative 'king'
+require_relative 'queen'
+require_relative 'rook'
+require_relative 'bishop'
+require_relative 'knight'
+require_relative 'pawn'
+
 class Board
   attr_accessor :spaces
   attr_reader :pieces, :move, :move_history
@@ -5,15 +12,50 @@ class Board
   BOARD_COLUMNS = %w[a b c d e f g h].freeze
 
   def initialize(data)
-    if data.class == Hash
-      @spaces = load_spaces(data)
-      @move_history = data.move_history
+    if data.instance_of?(Hash)
+      @spaces = load_spaces(data['board_spaces'])
+      @move_history = data['move_history']
     else
       @spaces = build_spaces(data)
       @move_history = []
     end
     @pieces = nil
     @move = nil
+  end
+
+  def load_spaces(spaces)
+    board = []
+
+    8.times do
+      tracker = 0
+      column = spaces.slice!(tracker, tracker + 8)
+      board << import_column(column)
+    end
+
+    board
+  end
+
+  def import_column(data)
+    column = []
+    data.each do |space|
+      column << if space
+                  case space['type']
+                  when 'Pawn'
+                    Pawn.new(space['player_index'], space['piece_index'], space['move_count'])
+                  when 'Rook'
+                    Rook.new(space['player_index'], space['piece_index'], space['move_count'])
+                  when 'Knight'
+                    Knight.new(space['player_index'], space['piece_index'], space['move_count'])
+                  when 'Bishop'
+                    Bishop.new(space['player_index'], space['piece_index'], space['move_count'])
+                  when 'Queen'
+                    Queen.new(space['player_index'], space['piece_index'], space['move_count'])
+                  when 'King'
+                    King.new(space['player_index'], space['piece_index'], space['move_count'])
+                  end
+                end
+    end
+    column
   end
 
   def build_spaces(pieces)
