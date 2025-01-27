@@ -1,7 +1,7 @@
 require_relative 'piece'
 
 class King < Piece
-  MOVES = [[1, 1], [1, 0], [1, -1], [0, 1], [0, -1], [-1, 1], [-1, 0], [-1, -1]].freeze
+  MOVES = [[1, 1], [1, 0], [1, -1], [0, 1], [0, -1], [-1, 1], [-1, 0], [-1, -1], [2, 0], [-2, 0]].freeze
 
   def initialize(player_index, piece_index)
     icon = player_index.zero? ? '♔' : '♚'
@@ -14,6 +14,8 @@ class King < Piece
   end
 
   def valid_move?(move, last_move, last_piece_abbvr)
-    true
+    return true if move[:castling] && move[:destination_xy].join('').match?(/(2|6)(0|7)/)
+
+    true if !move[:castling] && !move[:destination_xy].join('').match?(/(2|6)(0|7)/)
   end
 end
