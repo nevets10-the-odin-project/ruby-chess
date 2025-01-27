@@ -147,8 +147,10 @@ class Board
     rook_coord = get_coordinates(move[:current_player], 'Rook', rook_index)
     rook_piece = @spaces[rook_coord[0]][rook_coord[1]]
     rook_piece.incr_move_count
+    rook_x = move[:destination_xy][0] < move[:target_xy][0] ? move[:target_xy][0] - 1 : move[:target_xy][0] + 1
+    new_rook_space = [rook_x, move[:target_xy][1]]
 
-    update_space(move[:target_xy], rook_piece)
+    update_space(new_rook_space, rook_piece)
     update_space(rook_coord, nil)
   end
 
