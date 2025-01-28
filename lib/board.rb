@@ -192,9 +192,28 @@ class Board
   end
 
   def pawn_promotion(move)
-    return unless move[:player_index] == 0 && move[:destination_xy][1] == 7
+    max_queen_index = get_max_piece_index(move, 'Queen')
 
-    update_space(move[:destination_xy], Queen.new(0))
+    if move[:current_player] == 0 && move[:destination_xy][1] == 7
+      queen_index = max_queen_index + 1 || 0
+      update_space(move[:destination_xy], Queen.new(0, queen_index + 1))
+    elsif move[:current_player] == 1 && move[:destination_xy][1] == 0
+      queen_index = max_queen_index + 1 || 0
+      update_space(move[:destination_xy], Queen.new(0, queen_index + 1))
+    end
+  end
+
+  def get_max_piece_index(move, type)
+    cur_pieces = []
+    spaces.each do |col|
+      col.each do |space|
+        cur_pieces << space if space&.player_index == move[:current_player] && space&.type == type
+      end
+    end
+    cur_pieces.reduce(0) do |acc, cur|
+      cur.piece_index if cur.piece_index > acc
+      acc
+    end
   end
 
   def update_castling_rook(move)
