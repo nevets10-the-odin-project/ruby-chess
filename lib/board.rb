@@ -145,8 +145,7 @@ class Board
 
     possible_moves = move[:target_piece].filter_moves(move[:target_xy])
     return unless possible_moves.any?(move[:destination_xy])
-
-    return nil if check?(move[:current_player])
+    return if check?(move[:current_player]) && move[:target_piece].type != 'King'
 
     move[:destination_xy]
   end
