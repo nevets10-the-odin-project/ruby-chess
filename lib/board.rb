@@ -145,8 +145,10 @@ class Board
 
     possible_moves = move[:target_piece].filter_moves(move[:target_xy])
     return unless possible_moves.any?(move[:destination_xy])
+    return if cause_check?(move)
+    return if check?(move[:current_player]) && !break_check?(move)
 
-    return nil if check?(move[:current_player])
+    # return if check?(move[:current_player]) && move[:target_piece].type != 'King'
 
     move[:destination_xy]
   end
@@ -172,6 +174,24 @@ class Board
             end
 
     blocking_piece?(move, [new_x, new_y])
+  end
+
+  def break_check?(move)
+    update_space(move[:target_xy], nil)
+    update_space(move[:destination_xy], move[:target_piece])
+    is_checked = check?(move[:current_player])
+    update_space(move[:target_xy], move[:target_piece])
+    update_space(move[:destination_xy], move[:destination_piece])
+    !is_checked
+  end
+
+  def cause_check?(move)
+    update_space(move[:target_xy], nil)
+    update_space(move[:destination_xy], move[:target_piece])
+    is_checked = check?(move[:current_player])
+    update_space(move[:target_xy], move[:target_piece])
+    update_space(move[:destination_xy], move[:destination_piece])
+    is_checked
   end
 
   def update_board(move)
