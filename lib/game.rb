@@ -37,7 +37,7 @@ class Game
 
   def start
     loop do
-      # system 'clear -x'
+      system 'clear -x'
       board.print_board
       break if board.checkmate?(@current_player)
 
