@@ -3,6 +3,22 @@
 
 ---
 
+## How to Play
+
+Enter the space coordinates of the piece you want to move and the destination. (a2a4)
+
+If you want to perform a castling move, enter the space coordinates plus 'c'. (e1c1c)
+
+---
+
+## Post-project review
+
+This was definitely not an easy project and I feel that it started coming undone about half way through. The Board class is gargantuan and I could probably spend just a long refactoring it as it took to write up till now. I'm not going to do that... Despite that, I believe I have everything implemented, including En Passant and Castling. There are no check for stalemates
+
+The only thing I am willingly omitting is the testing. I understand the importance of testing. However, the rspec content is by far the weakest in this curriculum (as of 01/27/2025) and it really only focused on unit tests instead of wider-scale testing. It's definitely what I have struggled with the most so far.
+
+---
+
 ## Brainstorming
 
 There is a ton of stuff needed for this game and I'm sure there are some things missing from the list below, but hopefully this is sufficient to at least get started.
